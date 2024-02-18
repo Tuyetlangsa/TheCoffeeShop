@@ -20,13 +20,12 @@ public class IngredientWareHouseView {
 
     public IngredientWareHouseView() {
     }
+
     public void printAnIngredient(Ingredient ingredient, TheIngredientWareHouse iwh) {
-        System.out.printf("|%10s|%30s|%15d|%15s|",ingredient.getCode(), ingredient.getName(), iwh.get(ingredient), ingredient.getUnitType());
+        System.out.printf("|%10s|%30s|%15d|%15s|", ingredient.getCode(), ingredient.getName(), iwh.get(ingredient), ingredient.getUnitType());
         System.out.println();
     }
-    
-    
-    
+
     public void printAllIngredient(TheIngredientWareHouse iwh) {
         if (iwh.keySet().isEmpty()) {
             System.out.println("THERE IS NO INGREDIENT IN WAREHOUSE!!!");
@@ -38,8 +37,8 @@ public class IngredientWareHouseView {
             for (Object ingredient : sort) {
 //            System.out.println("|          |                              |               |               |");
                 Ingredient tmp = (Ingredient) ingredient;
-                
-                System.out.printf("|%10s|%30s|%15d|%15s|",tmp.getCode(), tmp.getName(), iwh.get(tmp), tmp.getUnitType());
+
+                System.out.printf("|%10s|%30s|%15d|%15s|", tmp.getCode(), tmp.getName(), iwh.get(tmp), tmp.getUnitType());
                 System.out.println();
             }
         }
@@ -48,7 +47,7 @@ public class IngredientWareHouseView {
 
     public void printAnIngredientInWareHouseByID(TheIngredientWareHouse iwh, String id) {
 //        System.out.println("|          |                              |               |               |");
-        Ingredient ingr = SearchData.SearchByIDV2(iwh, id);
+        Ingredient ingr = SearchData.searchIngredientByIDV2(iwh, id);
         if (ingr != null) {
             System.out.println("                         Ingredient Warehouse                         ");
 
@@ -60,4 +59,18 @@ public class IngredientWareHouseView {
         }
 
     }
+
+    public void printAvailableIngredient(TheIngredientWareHouse iwh) {
+        if (iwh.isEmpty()) {
+            System.out.println("There is no ingredient in warehouse!!!");
+        }
+        System.out.println("                             Ingredient Warehouse                            ");
+        System.out.println("|   ID     |           NAME               |   QUANTITY    |       TYPE    |");
+        for (Ingredient ingr : iwh.keySet()) {
+            if (iwh.get(ingr) > 0) {
+                printAnIngredient(ingr, iwh);
+            }
+        }
+    }
+
 }

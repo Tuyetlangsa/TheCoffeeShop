@@ -6,6 +6,9 @@ import java.util.HashMap;
 
 public class TheIngredientWareHouse extends HashMap<Ingredient, Integer> implements Serializable{
 
+    public TheIngredientWareHouse() {
+    }
+
     public boolean addItem(Ingredient item, Integer quantity) {
        this.put(item, quantity);
       return true;

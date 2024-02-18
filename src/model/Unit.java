@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author long
  */
-public class Unit {
+public class Unit implements Serializable {
     private String type;
     private int weight;
     private String measure;

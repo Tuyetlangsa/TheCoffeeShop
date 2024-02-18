@@ -5,12 +5,15 @@
  */
 package controller;
 
+import java.io.IOException;
+import java.util.HashMap;
 import model.Ingredient;
 import model.TheIngredientWareHouse;
 import model.Unit;
 import util.DataInput;
 import util.DataValidation;
 import util.FileManager;
+
 import util.Menu;
 import util.SearchData;
 import view.IngredientWareHouseView;
@@ -21,24 +24,28 @@ import view.IngredientWareHouseView;
  */
 public class IngredientWareHouseController {
 
-    private final TheIngredientWareHouse iwh;
-    private final IngredientWareHouseView view;
-    private final DataValidation dv = new DataValidation();
-    private final Menu mn = new Menu("Ingredient Management");
-    private final FileManager fm = new FileManager();
+    private  TheIngredientWareHouse iwh;
+    private  IngredientWareHouseView view;
+    private  DataValidation dv = new DataValidation();
+    private FileManager fm = new FileManager();
     private final String path = "Ingredients.txt";
-
     public IngredientWareHouseController(TheIngredientWareHouse iwh, IngredientWareHouseView view) {
         this.iwh = iwh;
         this.view = view;
     }
 
-    public void process() {
-        this.readFromFile();
+    public TheIngredientWareHouse getIwh() {
+        return iwh;
+    }
+    
+    public void process() throws ClassNotFoundException, IOException {
+        this.loadFile();
+        Menu mn = new Menu("Ingredient Management");
         mn.addOption("Add new ingredient");
         mn.addOption("Updat an ingredient");
         mn.addOption("Delete an ingredient");
         mn.addOption("Show all ingredient");
+        mn.addOption("End program");
         int choice;
         do {
             mn.printMenu();
@@ -47,8 +54,8 @@ public class IngredientWareHouseController {
                 case 1:
                     do {
                         this.addANewIngredient();
-                        this.writeToFile();
-                        String choice2 = DataInput.getString2Formats("Do you want to continue adding? (Y/N)", "Choose Y or N please!!!", "[Y/y]", "[N/n]");
+                      
+                       String choice2 = DataInput.getString2Formats("Do you want to continue adding? (Y/N)", "Choose Y or N please!!!", "[Y/y]", "[N/n]");
                         if ("N".equalsIgnoreCase(choice2)) {
                             break;
                         }
@@ -56,29 +63,32 @@ public class IngredientWareHouseController {
                     break;
                 case 2:
                     this.upadteAnIngredient();
-                    this.writeToFile();
+                    
                     break;
                 case 3:
                     this.deleteAnIngredient();
-                    this.writeToFile();
+                    
                     break;
                 case 4:
                     this.show();
+                    break;
+                case 5: 
+                    this.writeFile();
+                    break;
+                    
 
             }
         } while (choice > 0 && choice <= 4);
     }
-
-    public void readFromFile() {
+    public void loadFile() {
         fm.loadFromFile(iwh, path);
     }
-    public void writeToFile() {
-        fm.saveToFile(iwh, path, "Save Successfully!!!");
-    }
-    
+  public void writeFile() {
+      fm.saveToFile(iwh, path, "Save successfully");
+  }
     public void addANewIngredient() {
             System.out.println("----------Adding a new ingredient-------");
-            Ingredient newIngr = new Ingredient(dv.inputID(iwh), dv.inputName(), new Unit(dv.inputUnitType(), dv.inputUnitWeight(), dv.inputUnitMeasure()));
+            Ingredient newIngr = new Ingredient(dv.inputIngredientID(iwh), dv.inputIngredientName(), new Unit(dv.inputUnitType(), dv.inputUnitWeight(), dv.inputUnitMeasure()));
             iwh.addItem(newIngr, dv.inputQuantity());
             System.out.println("Add successfully!!!");
         }
@@ -97,12 +107,12 @@ public class IngredientWareHouseController {
             System.out.println("There is no ingredient in warehouse!!!");
         } else {
             System.out.println("-----------Updating an ingredient-------------");
-            String id = DataInput.getStringFormat("Enter ingredient's id to update: ", "Format for id is IXXX!!!", "[I]\\d{3}");
-            Ingredient ingr = SearchData.SearchByIDV2(iwh, id);
+            String id = DataInput.getStringFormat("Enter ingredient's id to update: ", "Format for id is IXXX!!!", "[I/i]\\d{3}");
+            Ingredient ingr = SearchData.searchIngredientByIDV2(iwh, id);
             if (ingr == null) {
                 System.out.println("This id is not existed!!");
             } else {
-                iwh.updateItem(ingr, dv.inputNameUpdate(ingr), dv.inputUnitTypeUpdate(ingr), dv.inputUnitWeightUpdate(ingr, 0, 10000), dv.inputUnitMeasureUpdate(ingr), dv.inputQuantityUpdate(iwh, ingr, 0, 10000));
+                iwh.updateItem(ingr, dv.inputNameUpdate(ingr), dv.inputUnitTypeUpdate(ingr), dv.inputUnitWeightUpdate(ingr, 1, 10000), dv.inputUnitMeasureUpdate(ingr), dv.inputQuantityUpdate(iwh, ingr, 0, 10000));
                 view.printAnIngredient(ingr, iwh);
             }
 
@@ -114,8 +124,8 @@ public class IngredientWareHouseController {
             System.out.println("There is no ingredient in warehouse!!!");
         } else {
             System.out.println("-----------Deleting an ingredient-------------");
-            String id = DataInput.getStringFormat("Enter ingredient's id to update: ", "Format for id is IXXX!!!", "[I]\\d{3}");
-            Ingredient ingr = SearchData.SearchByIDV2(iwh, id);
+            String id = DataInput.getStringFormat("Enter ingredient's id to delete: ", "Format for id is IXXX!!!", "[I/i]\\d{3}");
+            Ingredient ingr = SearchData.searchIngredientByIDV2(iwh, id);
             if (ingr == null) {
                 System.out.println("THIS ID IS NOT EXISTED!!!");
             } else {
@@ -128,7 +138,12 @@ public class IngredientWareHouseController {
                     System.out.println("Delete successfully!!!");
                 }
             }
-
         }
     }
+    public void showAvailableIngredient() {
+        view.printAvailableIngredient(iwh);
+    }
+    
+    
+    
 }

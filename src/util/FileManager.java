@@ -16,6 +16,7 @@ import java.io.ObjectOutputStream;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import model.TheIngredientWareHouse;
 
 /**
  *
@@ -38,7 +39,7 @@ public class FileManager {
             boolean check = true;
             while (check) {
                 try {
-                            list = (List)ois.readObject();
+                            list.addAll((List)ois.readObject());
                 } catch (EOFException e) {
                     break;
                 }
@@ -62,47 +63,7 @@ public class FileManager {
         return true;
     }
     
-    public <T> boolean loadFromFile(HashMap<T, Integer> list, String fileName) {
-        list.clear();
-        File f = new File(fileName);
-        if (!f.exists()) {
-            return false;
-        }
-        try (FileInputStream fis = new FileInputStream(f);
-                ObjectInputStream ois = new ObjectInputStream(fis)) {
-
-            if (f.length() == 0) {
-                System.err.println("File is empty");
-            }
-
-            boolean check = true;
-            while (check) {
-                try {
-                    
-                    list = (HashMap)ois.readObject();
-                    
-                } catch (EOFException e) {
-                    break;
-                }
-            }
-            ois.close();
-            fis.close();
-        } catch (FileNotFoundException e) {
-            System.err.println("File not found: " + fileName);
-            return false;
-        } catch (IOException | ClassNotFoundException e) {
-            if (f.length() != 0) {
-                System.err.println("Error reading from file: " + fileName + " " + e.getMessage());
-                return false;
-            }
-        } catch (NumberFormatException e) {
-            // log error or throw exception
-            System.err.println(e.getMessage());
-            return false;
-        }
-        return true;
-    }
-    
+   
     
     public <T> boolean saveToFile(List<T> list, String fileName, String msg) {
 
@@ -130,8 +91,48 @@ public class FileManager {
         return false;
     }
     
+    public <T> boolean loadFromFile(HashMap<T,Integer> list, String fileName) {
+        list.clear();
+        File f = new File(fileName);
+        if (!f.exists()) {
+            return false;
+        }
+        try (FileInputStream fis = new FileInputStream(f);
+                ObjectInputStream ois = new ObjectInputStream(fis)) {
+
+            if (f.length() == 0) {
+                System.err.println("File is empty");
+            }
+
+            boolean check = true;
+            while (check) {
+                try {
+                    
+                    list.putAll((HashMap<T, Integer>)ois.readObject());
+                    
+                } catch (EOFException e) {
+                    break;
+                }
+            }
+            ois.close();
+            fis.close();
+        } catch (FileNotFoundException e) {
+            System.err.println("File not found: " + fileName);
+            return false;
+        } catch (IOException | ClassNotFoundException e) {
+            if (f.length() != 0) {
+                System.err.println("Error reading from file: " + fileName + " " + e.getMessage());
+                return false;
+            }
+        } catch (NumberFormatException e) {
+            // log error or throw exception
+            System.err.println(e.getMessage());
+            return false;
+        }
+        return true;
+    }
     
-       public <T> boolean saveToFile(HashMap<T, Integer> list, String fileName, String msg) {
+     public boolean saveToFile(TheIngredientWareHouse list, String fileName, String msg) {
 
         try {
 
@@ -156,7 +157,6 @@ public class FileManager {
         }
         return false;
     }
-    
     
     
     

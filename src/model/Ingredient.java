@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author long
  */
-public class Ingredient implements Comparable<Ingredient> {
+public class Ingredient implements Comparable<Ingredient>, Serializable  {
     private String code;
     private String name;
     private Unit unit;
