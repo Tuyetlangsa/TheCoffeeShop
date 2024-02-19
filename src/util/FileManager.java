@@ -5,17 +5,21 @@
  */
 package util;
 
+import java.io.BufferedWriter;
 import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import model.Drink;
 import model.TheIngredientWareHouse;
 
 /**
@@ -158,7 +162,18 @@ public class FileManager {
         return false;
     }
     
-    
+    public void saveToFileByText(HashMap<Drink, Integer> drinkList, String path) throws FileNotFoundException, IOException {
+        if(!drinkList.isEmpty()) {
+            File f = new File(path);
+            FileWriter pw = new FileWriter(f, true);
+            BufferedWriter bw = new BufferedWriter(pw);
+            for (Drink drink : drinkList.keySet()) {
+                bw.write(drink.getName()+ "    " + drinkList.get(drink)+"\n");
+            }
+            bw.close();
+            pw.close();    
+        }
+    }
     
     
     

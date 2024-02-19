@@ -39,15 +39,7 @@ public class DataValidation {
         return name;
     }
 
-    public String inputUnitType() {
-        String unitType = DataInput.getStringNotBlank("Enter the item's unit type: ", "Invalid Unit Type!!!");
-        return unitType;
-    }
-
-    public int inputUnitWeight() {
-        int unitWeight = DataInput.getAnInteger("Enter ingredient's weight: ", "Weight is number from 1 to 10000!!!", 1, 10000);
-        return unitWeight;
-    }
+    
 
     public String inputUnitMeasure() {
         String measure = DataInput.getString2Formats("Enter the measure for weight: ", "Measure can be g or ml !!!", "ml", "g");
@@ -68,15 +60,7 @@ public class DataValidation {
         }
     }
 
-    public String inputUnitTypeUpdate(Ingredient ingr) {
 
-        String type = DataInput.getAStringCanBeBlank("Enter ingredient's unit type to update: ");
-        if (type.equalsIgnoreCase("")) {
-            return ingr.getUnitType();
-        } else {
-            return type;
-        }
-    }
 
     public boolean checkMeasure(String[] measure, String str) {
         boolean check = false;
@@ -95,37 +79,18 @@ public class DataValidation {
         do {
             measure = DataInput.getAStringCanBeBlank("Enter ingredient's measure to update: ");
             if (measure.equalsIgnoreCase("")) {
-                return ingr.getUnitMeasure();
+                return ingr.getMeasure();
             } else {
                 check = checkMeasure(measureList, measure);
                 if (check == true) {
                     return measure;
                 }
-                else System.out.println("The measure for a " + ingr.getUnitType() +" can be: "+ Arrays.toString(measureList));
+                else System.out.println("The measure for a " + ingr.getName() +" can be: "+ Arrays.toString(measureList));
             }
         } while (true);
     }
 
-    public int inputUnitWeightUpdate(Ingredient ingr, int lower, int upper) {
-        String weight;
-        int num;
-        do {
-            weight = DataInput.getAStringCanBeBlank("Enter ingredient's weight for a type to update: ");
-            if (weight.equalsIgnoreCase("")) {
-                return ingr.getUnitWeight();
-            } else {
-                try {
-                    num = Integer.parseInt(weight);
-                    if (num >= lower && num <= upper) {
-                        return num;
-                    }
-                } catch (Exception e) {
-                    System.out.println("PLEASE ENTER A NUMBER FROM " + lower + 1 + " TO " + upper + "!!!");
-                }
-            }
-        } while (true);
-
-    }
+    
 
     public int inputQuantityUpdate(TheIngredientWareHouse iwh, Ingredient ingr, int lower, int upper) {
         String quantity;
@@ -194,7 +159,7 @@ public class DataValidation {
     }
 
     public int inputQuantityForAnIngredient(Ingredient ingr) {
-        int quantity = DataInput.getAnInteger("Enter the quantity of " + ingr.getName() + " in drink" + "(" + ingr.getUnitMeasure() + "): ", "Quantity for ingredient is from 1 to 500 " + "(" + ingr.getUnitMeasure() + ")!!!", 1, 500);
+        int quantity = DataInput.getAnInteger("Enter the quantity of " + ingr.getName() + " in drink" + "(" + ingr.getMeasure()+ "): ", "Quantity for ingredient is from 1 to 500 " + "(" + ingr.getMeasure()+ ")!!!", 1, 500);
         return quantity;
     }
     

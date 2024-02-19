@@ -27,16 +27,25 @@ public class Drink_Menu_Controller {
     private Drink_Menu_View view;
     private DataValidation dv = new DataValidation();
     private FileManager fm = new FileManager();
-    private final String path = "Menu.txt";
+//    private final String path = "Menu.txt";
 
     public Drink_Menu_Controller(Drink_Menu drMenu, Drink_Menu_View view, IngredientWareHouseController iwhCtl) {
         this.drMenu = drMenu;
         this.view = view;
         this.iwhCtl = iwhCtl;
     }
+    
+    
+    public Drink_Menu getDrMenu() {
+        return drMenu;
+    }
 
+    public Drink_Menu_View getView() {
+        return view;
+    }
+    
     public void process() {
-        this.loadFile();
+//        this.loadFile();
         Menu mn = new Menu("Drink Menu");
         mn.addOption("Add new drink");
         mn.addOption("Update an drink");
@@ -67,21 +76,21 @@ public class Drink_Menu_Controller {
                     this.show();
                     break;
                 case 5:
-                    this.writeFile();
+//                    this.writeFile();
                     break;
 
             }
         } while (choice > 0 && choice <= 4);
     }
 
-    public void loadFile() {
-        fm.loadFromFile(drMenu, path);
-
-    }
-
-    public void writeFile() {
-        fm.saveToFile(drMenu, path, "Save successfully");
-    }
+//    public void loadFile() {
+//        fm.loadFromFile(drMenu, path);
+//
+//    }
+//
+//    public void writeFile() {
+//        fm.saveToFile(drMenu, path, "Save successfully");
+//    }
 
     public void addANewDrink() {
 
@@ -183,4 +192,6 @@ public class Drink_Menu_Controller {
     public void show() {
         view.printAllDrink(drMenu);
     }
+
+    
 }

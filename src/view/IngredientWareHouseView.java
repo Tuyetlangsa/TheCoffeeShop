@@ -22,7 +22,7 @@ public class IngredientWareHouseView {
     }
 
     public void printAnIngredient(Ingredient ingredient, TheIngredientWareHouse iwh) {
-        System.out.printf("|%10s|%30s|%15d|%15s|", ingredient.getCode(), ingredient.getName(), iwh.get(ingredient), ingredient.getUnitType());
+        System.out.printf("|%10s|%30s|%15d|%15s|", ingredient.getCode(), ingredient.getName(), iwh.get(ingredient), ingredient.getMeasure());
         System.out.println();
     }
 
@@ -33,12 +33,12 @@ public class IngredientWareHouseView {
             ArrayList sort = new ArrayList<>(iwh.keySet());
             Collections.sort(sort);
             System.out.println("                             Ingredient Warehouse                            ");
-            System.out.println("|   ID     |           NAME               |   QUANTITY    |       TYPE    |");
+            System.out.println("|   ID     |           NAME               |   QUANTITY    |      MEASURE   |");
             for (Object ingredient : sort) {
 //            System.out.println("|          |                              |               |               |");
                 Ingredient tmp = (Ingredient) ingredient;
 
-                System.out.printf("|%10s|%30s|%15d|%15s|", tmp.getCode(), tmp.getName(), iwh.get(tmp), tmp.getUnitType());
+                System.out.printf("|%10s|%30s|%15d|%15s|", tmp.getCode(), tmp.getName(), iwh.get(tmp), tmp.getMeasure());
                 System.out.println();
             }
         }
@@ -51,9 +51,9 @@ public class IngredientWareHouseView {
         if (ingr != null) {
             System.out.println("                         Ingredient Warehouse                         ");
 
-            System.out.println("|   ID     |           NAME               |   QUANTITY    |       TYPE    |");
+            System.out.println("|   ID     |           NAME               |   QUANTITY    |      MEASURE   |");
 
-            System.out.printf("|%10s|%30s|%15d|%15s|", ingr.getCode(), ingr.getName(), iwh.get(ingr), ingr.getUnitType());
+            System.out.printf("|%10s|%30s|%15d|%15s|", ingr.getCode(), ingr.getName(), iwh.get(ingr), ingr.getMeasure());
         } else {
             System.out.println("THIS INGREDIENT'S ID IS NOT EXISTED!!!");
         }
@@ -65,12 +65,12 @@ public class IngredientWareHouseView {
             System.out.println("There is no ingredient in warehouse!!!");
         }
         System.out.println("                             Ingredient Warehouse                            ");
-        System.out.println("|   ID     |           NAME               |   QUANTITY    |       TYPE    |");
+        System.out.println("|   ID     |           NAME               |   QUANTITY    |      MEASURE   |");
         for (Ingredient ingr : iwh.keySet()) {
             if (iwh.get(ingr) > 0) {
                 printAnIngredient(ingr, iwh);
             }
         }
     }
-
+    
 }

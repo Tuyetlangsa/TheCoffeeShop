@@ -17,12 +17,12 @@ import model.Ingredient;
 public class Drink_Menu_View {
     public void printADrink(Drink dr){
         
-        System.out.printf("|%-10s|%-10s|%-15d   |", dr.getCode(), dr.getName(), dr.getPrice());
+        System.out.printf("|%-10s|%-10s|%-7d VND |", dr.getCode(), dr.getName(), dr.getPrice());
         System.out.println();
         System.out.println("----------RECIPE----------");
         System.out.println("|   Name   |  Quantity   |");
         for (Ingredient ingredient : dr.getRecipe().keySet()) {
-            System.out.printf("|%-10s|%5d  %6s|", ingredient.getName(), dr.getRecipe().get(ingredient), ingredient.getUnitMeasure());
+            System.out.printf("|%-10s|%5d  %6s|", ingredient.getName(), dr.getRecipe().get(ingredient), ingredient.getMeasure());
             System.out.println();
         }
     }
@@ -35,5 +35,8 @@ public class Drink_Menu_View {
             System.out.println();
         }
     }
-        
+    
+    
+    
+    
 }

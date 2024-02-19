@@ -14,10 +14,16 @@ public class TheIngredientWareHouse extends HashMap<Ingredient, Integer> impleme
       return true;
    }
 
-    public void updateItem(Ingredient ingr, String name, String type, int weight, String measure, int quantity) {
+    /**
+     *
+     * @param ingr
+     * @param name
+     * @param measure
+     * @param quantity
+     */
+    public synchronized void updateItem(Ingredient ingr, String name, String measure, int quantity) {
         ingr.setName(name);
-        ingr.setUnitType(type);
-        ingr.setUnitWeight(weight);
+        ingr.setMeasure(measure);
         this.replace(ingr, quantity);  
     }
     

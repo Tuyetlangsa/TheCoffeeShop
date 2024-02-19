@@ -9,7 +9,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import model.Ingredient;
 import model.TheIngredientWareHouse;
-import model.Unit;
+
 import util.DataInput;
 import util.DataValidation;
 import util.FileManager;
@@ -24,11 +24,11 @@ import view.IngredientWareHouseView;
  */
 public class IngredientWareHouseController {
 
-    private  TheIngredientWareHouse iwh;
+    private TheIngredientWareHouse iwh;
     private  IngredientWareHouseView view;
     private  DataValidation dv = new DataValidation();
     private FileManager fm = new FileManager();
-    private final String path = "Ingredients.txt";
+//    private final String path = "Ingredients.txt";
     public IngredientWareHouseController(TheIngredientWareHouse iwh, IngredientWareHouseView view) {
         this.iwh = iwh;
         this.view = view;
@@ -39,7 +39,7 @@ public class IngredientWareHouseController {
     }
     
     public void process() throws ClassNotFoundException, IOException {
-        this.loadFile();
+        
         Menu mn = new Menu("Ingredient Management");
         mn.addOption("Add new ingredient");
         mn.addOption("Updat an ingredient");
@@ -73,22 +73,22 @@ public class IngredientWareHouseController {
                     this.show();
                     break;
                 case 5: 
-                    this.writeFile();
+//                    this.writeFile();
                     break;
                     
 
             }
         } while (choice > 0 && choice <= 4);
     }
-    public void loadFile() {
-        fm.loadFromFile(iwh, path);
-    }
-  public void writeFile() {
-      fm.saveToFile(iwh, path, "Save successfully");
-  }
+//    public void loadFile() {
+//        fm.loadFromFile(iwh, path);
+//    }
+//  public void writeFile() {
+//      fm.saveToFile(iwh, path, "Save successfully");
+//  }
     public void addANewIngredient() {
             System.out.println("----------Adding a new ingredient-------");
-            Ingredient newIngr = new Ingredient(dv.inputIngredientID(iwh), dv.inputIngredientName(), new Unit(dv.inputUnitType(), dv.inputUnitWeight(), dv.inputUnitMeasure()));
+            Ingredient newIngr = new Ingredient(dv.inputIngredientID(iwh), dv.inputIngredientName(), dv.inputUnitMeasure());
             iwh.addItem(newIngr, dv.inputQuantity());
             System.out.println("Add successfully!!!");
         }
@@ -112,7 +112,7 @@ public class IngredientWareHouseController {
             if (ingr == null) {
                 System.out.println("This id is not existed!!");
             } else {
-                iwh.updateItem(ingr, dv.inputNameUpdate(ingr), dv.inputUnitTypeUpdate(ingr), dv.inputUnitWeightUpdate(ingr, 1, 10000), dv.inputUnitMeasureUpdate(ingr), dv.inputQuantityUpdate(iwh, ingr, 0, 10000));
+                iwh.updateItem(ingr, dv.inputNameUpdate(ingr), dv.inputUnitMeasureUpdate(ingr), dv.inputQuantityUpdate(iwh, ingr, 0, 10000));
                 view.printAnIngredient(ingr, iwh);
             }
 
@@ -140,9 +140,9 @@ public class IngredientWareHouseController {
             }
         }
     }
-    public void showAvailableIngredient() {
-        view.printAvailableIngredient(iwh);
-    }
+    
+        
+    
     
     
     

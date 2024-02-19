@@ -151,7 +151,7 @@ public class DataInput {
         boolean match2;
         while (true) {
             System.out.print(inputMsg);
-            str = sc.nextLine();
+            str = sc.nextLine().trim();
             match1 = str.matches(format1);
             match2 = str.matches(format2);
             if (match1||match2) {
